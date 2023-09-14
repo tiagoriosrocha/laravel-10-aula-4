@@ -124,11 +124,18 @@ class AtividadeController extends Controller
         return redirect('/atividades')->with('success', 'Atividade editada com sucesso!!');
     }
 
+    public function delete($id){
+        $umaAtividade = Atividade::find($id);
+        return view('atividade.delete',['atividade' => $umaAtividade]);
+    }
+
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Atividade $atividade)
+    public function destroy($id)
     {
-        //
+        $umaAtividade = Atividade::find($id);
+        $umaAtividade->delete();
+        return redirect('/atividades')->with('success','Atividade excluída com sucesso!!');
     }
 }
