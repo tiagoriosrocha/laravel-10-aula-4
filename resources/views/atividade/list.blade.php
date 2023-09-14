@@ -1,5 +1,10 @@
 <h1>
     <body>
+        <h1>Lista de Atividades</h1>
+        <hr>
+
+        <p><a href="/atividade/create">Criar uma nova atividade</a></p>
+        <br>
 
         <!-- EXIBE MENSAGENS DE SUCESSO -->
         @if(\Session::has('success'))

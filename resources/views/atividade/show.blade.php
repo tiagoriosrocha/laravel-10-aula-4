@@ -8,5 +8,8 @@
         <br>
         <p>Criado em: {{$atividade->created_at}}</p>
         <p>Atualizado em: {{$atividade->updated_at}}</p>
+        <br>
+        <a href="/atividade/{{ $atividade->id }}/delete">Deletar</a>
+        <a href="/atividade/{{ $atividade->id }}/edit">Editar</a>
     </body>
 </h1>
