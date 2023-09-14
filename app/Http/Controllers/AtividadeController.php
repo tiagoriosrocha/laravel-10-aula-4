@@ -79,17 +79,49 @@ class AtividadeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Atividade $atividade)
+    public function edit($id)
     {
-        //
+        $umaAtividade = Atividade::find($id);
+        return view("atividade.edit", ['atividade' => $umaAtividade]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Atividade $atividade)
+    public function update(Request $request, $id)
     {
-        //
+        //vetor com as mensagens de erro
+        $messages = array(
+            'title.required' => 'É obrigatório um título para a atividade',
+            'description.required' => 'É obrigatória uma descrição para a atividade',
+            'scheduledto.required' => 'É obrigatório o cadastro da data/hora da atividade',
+        );
+
+        //vetor com as especificações de validações
+        $regras = array(
+            'title' => 'required|string|max:255',
+            'description' => 'required',
+            'scheduledto' => 'required|string',
+        );
+
+        //cria o objeto com as regras de validação
+        $validador = Validator::make($request->all(), $regras, $messages);
+
+        //executa as validações
+        if ($validador->fails()) {
+            return redirect("atividade/$id/edit")
+            ->withErrors($validador)
+            ->withInput($request->all);
+        }
+
+        //se passou pelas validações, processa e salva no banco...
+        $obj_Atividade = Atividade::findOrFail($id);
+        $obj_Atividade->title =       $request['title'];
+        $obj_Atividade->description = $request['description'];
+        $obj_Atividade->scheduledto = $request['scheduledto'];
+        $obj_Atividade->save();
+
+        return redirect('/atividades')->with('success', 'Atividade editada com sucesso!!');
     }
 
     /**
